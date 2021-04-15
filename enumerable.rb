@@ -143,14 +143,21 @@ module Enumerable
     result
   end
 
-  def my_map
+  def my_map(param = nil)
     result_array = []
 
-    if block_given?
+    if param&.instance_of?(Proc)
+      to_a.my_each do |item|
+        result_array.push(param.call(item))
+      end
+      result_array
+
+    elsif block_given?
       to_a.my_each do |item|
         result_array.push(yield(item))
       end
       result_array
+
     else
       to_enum(:my_each)
     end
