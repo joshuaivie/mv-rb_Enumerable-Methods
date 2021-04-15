@@ -124,6 +124,27 @@ module Enumerable
     end
     result
   end
+
+  def my_count?(param = nil)
+    count = 0
+    if block_given?
+      to_a.my_each do |item|
+        count += 1 if yield(item) == true
+      end
+    elsif param.nil? == false
+      to_a.my_each do |item|
+        count += 1 if item == param
+      end
+    else
+      to_a.my_each do |_item|
+        count += 1
+      end
+    end
+    result
+  end
 end
 
-p [nil, false].none?
+ary = [1, 2, 4, 2]
+p ary.count
+p ary.count(2)
+p ary.count(&:even?)
