@@ -68,7 +68,35 @@ module Enumerable
     end
     result
   end
+
+  def my_any?(param = nil)
+    result = false
+    if block_given?
+      to_a.my_each do |item|
+        result = true if yield(item) == true
+      end
+    elsif param.nil? == false
+      if param.instance_of?(Class)
+        to_a.my_each do |item|
+          result = true if item.is_a?(param) == true
+        end
+      elsif param.instance_of?(Regexp)
+        to_a.my_each do |item|
+          result = true if param.match?(item) == true
+        end
+      else
+        to_a.my_each do |item|
+          result = true if item == param
+        end
+      end
+    else
+      to_a.my_each do |item|
+        result = true unless item.nil? || item == false
+      end
+    end
+    result
+  end
 end
 
-array = [2, 4, 1, 5, 3, 8, 9]
-p array.my_all? { |number| number >= 2 }
+array = [nil, false, true]
+p array.my_any?
