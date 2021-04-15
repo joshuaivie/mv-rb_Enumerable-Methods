@@ -198,3 +198,8 @@ module Enumerable
     end
   end
 end
+
+def multiply_els(param)
+  array = param.to_a
+  array.my_inject(:*)
+end
