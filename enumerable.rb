@@ -40,7 +40,35 @@ module Enumerable
       to_enum(:my_each_with_index)
     end
   end
+
+  def my_all?(param = nil)
+    result = true
+    if block_given?
+      to_a.my_each do |item|
+        result = false if yield(item) == false
+      end
+    elsif param.nil? == false
+      if param.instance_of?(Class)
+        to_a.my_each do |item|
+          result = false if item.is_a?(param) == false
+        end
+      elsif param.instance_of?(Regexp)
+        to_a.my_each do |item|
+          result = false if param.match?(item) == false
+        end
+      else
+        to_a.my_each do |item|
+          result = false unless item == param
+        end
+      end
+    else
+      to_a.my_each do |item|
+        result = false if item.nil? || item == false
+      end
+    end
+    result
+  end
 end
 
 array = [2, 4, 1, 5, 3, 8, 9]
-p array.my_select(&:even?)
+p array.my_all? { |number| number >= 2 }
