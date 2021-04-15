@@ -96,7 +96,34 @@ module Enumerable
     end
     result
   end
+
+  def my_none?(param = nil)
+    result = true
+    if block_given?
+      to_a.my_each do |item|
+        result = false if yield(item) == true
+      end
+    elsif param.nil? == false
+      if param.instance_of?(Class)
+        to_a.my_each do |item|
+          result = false if item.is_a?(param) == true
+        end
+      elsif param.instance_of?(Regexp)
+        to_a.my_each do |item|
+          result = false if param.match?(item) == true
+        end
+      else
+        to_a.my_each do |item|
+          result = false if item == param
+        end
+      end
+    else
+      to_a.my_each do |item|
+        result = false unless item.nil? || item == false
+      end
+    end
+    result
+  end
 end
 
-array = [nil, false, true]
-p array.my_any?
+p [nil, false].none?
