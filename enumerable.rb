@@ -155,5 +155,46 @@ module Enumerable
       to_enum(:my_each)
     end
   end
-end
 
+  def my_inject(param_1 = nil, param_2 = nil)
+    array = to_a
+
+    if param_1 && param_2
+      acumulator = param_1
+      operator = param_2
+
+      array.my_each do |item|
+        acumulator = acumulator.send(operator, item)
+      end
+      acumulator
+
+    elsif param_1 && param_2.nil? && !block_given?
+      acumulator = array.shift
+      operator = param_1
+
+      array.my_each do |item|
+        acumulator = acumulator.send(operator, item)
+      end
+      acumulator
+
+    elsif block_given? && param_1
+      acumulator = param_1
+
+      array.my_each do |item|
+        acumulator = yield(acumulator, item)
+      end
+      acumulator
+
+    elsif block_given?
+      acumulator = array.shift
+
+      array.my_each do |item|
+        acumulator = yield(acumulator, item)
+      end
+      acumulator
+
+    else
+      raise StandardError, 'wrong use'
+    end
+  end
+end
