@@ -136,15 +136,24 @@ module Enumerable
         count += 1 if item == param
       end
     else
-      to_a.my_each do |_item|
+      to_a.my_each do
         count += 1
       end
     end
     result
   end
+
+  def my_map
+    result_array = []
+
+    if block_given?
+      to_a.my_each do |item|
+        result_array.push(yield(item))
+      end
+      result_array
+    else
+      to_enum(:my_each)
+    end
+  end
 end
 
-ary = [1, 2, 4, 2]
-p ary.count
-p ary.count(2)
-p ary.count(&:even?)
