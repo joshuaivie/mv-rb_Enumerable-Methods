@@ -138,7 +138,7 @@ module Enumerable
   end
 
   def my_map(param = nil)
-    return to_enum(:my_map) unless block_given? || param
+    return to_enum(:my_map, param) unless !param.nil? || block_given?
 
     result_array = []
 
