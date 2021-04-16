@@ -1,44 +1,38 @@
 module Enumerable
   def my_each
+    return to_enum(:my_each) unless block_given?
+
     size = to_a.length
     index = 0
 
-    if block_given?
-      until index == size
-        yield(to_a[index])
-        index += 1
-      end
-      self
-    else
-      to_enum(:my_each)
+    until index == size
+      yield(to_a[index])
+      index += 1
     end
+    self
   end
 
   def my_each_with_index
+    return to_enum(:my_each_with_index) unless block_given?
+
     size = to_a.length
     index = 0
 
-    if block_given?
-      until index == size
-        yield(to_a[index], index)
-        index += 1
-      end
-      self
-    else
-      to_enum(:my_each_with_index)
+    until index == size
+      yield(to_a[index], index)
+      index += 1
     end
+    self
   end
 
   def my_select
-    if block_given?
-      result = []
-      to_a.my_each do |item|
-        result.push(item) if yield(item) == true
-      end
-      result
-    else
-      to_enum(:my_each_with_index)
+    return to_enum(:my_select) unless block_given?
+
+    result = []
+    to_a.my_each do |item|
+      result.push(item) if yield(item) == true
     end
+    result
   end
 
   def my_all?(param = nil)
@@ -146,7 +140,7 @@ module Enumerable
   def my_map(param = nil)
     result_array = []
 
-    if param&.instance_of?(Proc)
+    if param
       to_a.my_each do |item|
         result_array.push(param.call(item))
       end
