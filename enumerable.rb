@@ -138,6 +138,8 @@ module Enumerable
   end
 
   def my_map(param = nil)
+    return to_enum(:my_map) unless block_given? || param
+
     result_array = []
 
     if param
@@ -151,9 +153,6 @@ module Enumerable
         result_array.push(yield(item))
       end
       result_array
-
-    else
-      to_enum(:my_each)
     end
   end
 
