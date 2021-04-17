@@ -2,9 +2,9 @@
 
 # Enumerable Methods
 
-> Ruby a wonderful programming language that was designed for programmer productivity. It comes feature packed with numerous inbuilt classes and methods to make programming enjoyable for developers.
+> Ruby is a wonderful programming language that was designed for programmer productivity. It comes feature-packed with numerous inbuilt classes and methods to make programming enjoyable for developers.
 >
-> One of ruby's inbuilt modules is the Enumerable module. This module comes with several traversal and searching methods, and with the ability to sort.
+> One of ruby's inbuilt modules is the Enumerable module. This module comes with several traversal and searching methods and with the ability to sort.
 >
 > Although, the inbuilt Enumerable methods make life really easy, this project aims to rebuild some of those inbuilt methods to strengthen the authors' grasp of ruby's fundamental
 

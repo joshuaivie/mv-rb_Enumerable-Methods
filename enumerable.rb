@@ -119,7 +119,7 @@ module Enumerable
     result
   end
 
-  def my_count?(param = nil)
+  def my_count(param = nil)
     count = 0
     if block_given?
       to_a.my_each do |item|
@@ -157,7 +157,11 @@ module Enumerable
   end
 
   def my_inject(param_1 = nil, param_2 = nil)
-    array = to_a
+    array = []
+
+    to_a.my_each do |item|
+      array.push(item)
+    end
 
     if param_1 && param_2
       acumulator = param_1
@@ -194,7 +198,7 @@ module Enumerable
       acumulator
 
     else
-      raise StandardError, 'wrong use'
+      raise LocalJumpError, 'no block given'
     end
   end
 end
