@@ -134,7 +134,7 @@ module Enumerable
         count += 1
       end
     end
-    result
+    count
   end
 
   def my_map(param = nil)
