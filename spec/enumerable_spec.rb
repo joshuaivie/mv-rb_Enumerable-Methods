@@ -14,13 +14,15 @@ RSpec.describe Enumerable do
       expect { nil.my_each }.to raise_error(NoMethodError)
     end
     it 'returns each element from a supplied array' do
-      expect(array.my_each { |n| n }).to eql(array.each { |n| n })
+      expect(array.my_each { |number| number > 2 ? number : 2 }).to eql(array.each { |number| number > 2 ? number : 2 })
     end
     it 'returns each element from a supplied range' do
-      expect(range.my_each { |n| n }).to eql(range.each { |n| n })
+      expect(range.my_each { |number| number > 2 ? number : 2 }).to eql(range.each { |number| number > 2 ? number : 2 })
     end
     it 'returns each element from a supplied hash' do
-      expect(range.my_each { |key, _value| key }).to eql(range.each { |key, _value| key })
+      my_result = range.my_each { |key, _value| key == 3 ? 'true' : 'false' }
+      standard_result = range.each { |key, _value| key == 3 ? 'true' : 'false' }
+      expect(my_result).to eql(standard_result)
     end
   end
 
@@ -32,14 +34,20 @@ RSpec.describe Enumerable do
       expect { nil.my_each_with_index }.to raise_error(NoMethodError)
     end
     it 'returns each element and index from a supplied array' do
-      expect(array.my_each_with_index { |element, _index| element }).to eql(array.each_with_index { |element, _index| element })
+      my_result = array.my_each_with_index { |element, _index| element }
+      standard_result = array.each_with_index { |element, _index| element }
+      expect(my_result).to eql(standard_result)
     end
     it 'returns each element and index from a supplied array' do
       hash = {}
-      expect(range.my_each_with_index { |element, index| hash[element] = index }).to eql(range.each_with_index { |element, index| hash[element] = index })
+      my_result = range.my_each_with_index { |element, index| hash[element] = index }
+      standard_result = range.each_with_index { |element, index| hash[element] = index }
+      expect.call(my_result).to eql(standard_result)
     end
     it 'returns each element and index from a supplied array' do
-      expect(hash.my_each_with_index { |(_key, _value), index| index }).to eql(hash.each_with_index { |(_key, _value), index| index })
+      my_result = hash.my_each_with_index { |(_key, _value), index| index }
+      standard_result = hash.each_with_index { |(_key, _value), index| index }
+      expect(my_result).to eql(standard_result)
     end
   end
 
