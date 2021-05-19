@@ -47,16 +47,16 @@ RSpec.describe Enumerable do
     it 'returns enumerable if no block_given' do
       expect(array.my_select).to be_an Enumerator
     end
-    it 'with nil' do
+    it 'raises NoMethod error when applied on nil' do
       expect { nil.my_select }.to raise_error(NoMethodError)
     end
-    it 'for array' do
+    it 'returns the selected element from an array' do
       expect(array.my_select(&:even?)).to eql(array.select(&:even?))
     end
-    it 'for range' do
+    it 'returns the selected element from a range' do
       expect(range.my_select(&:even?)).to eql(range.select(&:even?))
     end
-    it 'it returns the selected element from a array of symbols' do
+    it 'returns the selected element from an array of symbols' do
       my_result = %i[foo bar].my_select { |x| x == :foo }
       std_result = %i[foo bar].select { |x| x == :foo }
       expect(my_result).to eql(std_result)
@@ -64,107 +64,104 @@ RSpec.describe Enumerable do
   end
 
   describe '#my_all?' do
-    it 'no block_given for array' do
+    it 'returns true if no block_given for array' do
       expect(array.my_all?).to eql(array.all?)
     end
-    it 'no block_given for range' do
+    it 'returns true if no block_given for range' do
       expect(range.my_all?).to eql(range.all?)
     end
-    it 'no block_given for hash' do
+    it 'returns true if no block_given for hash' do
       expect(hash.my_all?).to eql(hash.all?)
     end
-    it 'raises error if given nil' do
+    it 'raises NoMethod error when applied on nil' do
       expect { nil.may_all? }.to raise_error(NoMethodError)
     end
-    it 'block_given for array' do
+    it 'returns true if block never returns false or nil for array elements' do
       expect(array.my_all? { |element| element == 1 }).to eql(array.all? { |element| element == 2 })
     end
-    it 'block_given for range' do
+    it 'returns true if block never returns false or nil for range members' do
       expect(range.my_all? { |element| element == 2 }).to eql(range.all? { |element| element == 2 })
     end
-    it 'test with class given' do
+    it 'returns true if all array elements are of Class type' do
       expect(array.my_all?(Integer)).to eql(array.all?(Integer))
     end
-    it 'test with regex given' do
+    it 'returns true if all array elements match regular expression' do
       expect(string_array.my_all?(/[a-z]/)).to eql(string_array.all?(/[a-z]/))
     end
   end
 
   describe '#my_any?' do
-    it 'no block_given for array' do
+    it 'returns true for non-empty array' do
       expect(array.my_any?).to eql(array.any?)
     end
-    it 'no block_given for range' do
+    it 'returns true if non zero range' do
       expect(range.my_any?).to eql(range.any?)
     end
-    it 'no block_given for hash' do
+    it 'returns true for non-empty hash' do
       expect(hash.my_any?).to eql(hash.any?)
     end
-    it 'raises error if given nil' do
+    it 'raises NoMethod error when applied on nil' do
       expect { nil.may_any? }.to raise_error(NoMethodError)
     end
-    it 'block_given for array' do
+    it 'returns true if block returns true for any array elements' do
       expect(array.my_any? { |element| element == 2 }).to eql(array.any? { |element| element == 2 })
     end
-    it 'block_given for range' do
+    it 'returns true if block returns true for any range members' do
       expect(range.my_any? { |element| element == 2 }).to eql(range.any? { |element| element == 2 })
     end
-    it 'tests with class given' do
+    it 'returns true if any array elements are of Class type' do
       expect(array.my_any?(Integer)).to eql(array.any?(Integer))
     end
-    it 'tests with regex given' do
+    it 'returns true if any array elements match regular expression' do
       expect(string_array.my_any?(/[1-9]/)).to eql(string_array.any?(/[1-9]/))
     end
   end
 
   describe '#my_none?' do
-    it 'no block_given for array' do
+    it 'returns true for empty array' do
       expect(array.my_none?).to eql(array.none?)
     end
-    it 'no block_given for range' do
+    it 'returns true for empty range' do
       expect(range.my_none?).to eql(range.none?)
     end
-    it 'no block_given for hash' do
+    it 'returns true for empty hash' do
       expect(hash.my_none?).to eql(hash.none?)
     end
-    it 'raises error if given nil' do
+    it 'raises NoMethod error when applied on nil' do
       expect { nil.may_none? }.to raise_error(NoMethodError)
     end
-    it 'block_given for array' do
+    it 'returns true if block always return false or nil for any array elements' do
       expect(array.my_none? { |element| element == 100 }).to eql(array.none? { |element| element == 100 })
     end
-    it 'block_given for range' do
+    it 'returns true if block always return false or nil for any range members' do
       expect(range.my_none? { |element| element == 100 }).to eql(range.none? { |element| element == 100 })
     end
-    it 'tests with class given' do
+    it 'returns true if no array elements are of Class type' do
       expect(array.my_none?(String)).to eql(array.none?(String))
     end
-    it 'testd with regex given' do
+    it 'returns true if no array elements are of Class type' do
       expect(string_array.my_none?(/[a-z]/)).to eql(string_array.none?(/[a-z]/))
     end
   end
 
   describe '#my_count?' do
-    it 'no block_given for array' do
+    it 'returns length of array when no block given' do
       expect(array.my_count).to eql(array.count)
     end
-    it 'no block_given for range' do
+    it 'returns length of range when no block given' do
       expect(range.my_count).to eql(range.count)
     end
-    it 'no block_given for hash' do
+    it 'returns size of hash when no block given' do
       expect(hash.my_count).to eql(hash.count)
     end
-    it 'raises error if given nil' do
+    it 'raises NoMethodError error if called on nil' do
       expect { nil.may_count }.to raise_error(NoMethodError)
     end
-    it 'block_given for array' do
+    it 'returns count of array elements yielding a true value to block' do
       expect(array.my_count(&:even?)).to eql(array.count(&:even?))
     end
-    it 'block_given for range' do
+    it 'returns count of range elements yielding a true value to block' do
       expect(range.my_count(&:even?)).to eql(range.count(&:even?))
-    end
-    it 'counts length when no test param given' do
-      expect(array.my_count).to eql(array.count)
     end
   end
 
@@ -172,7 +169,7 @@ RSpec.describe Enumerable do
     it 'returns enumerable if no block_given' do
       expect(array.my_map).to be_an Enumerator
     end
-    it 'raises an error when called on nil' do
+    it 'raises NoMethodError when called on nil' do
       expect { nil.my_map }.to raise_error(NoMethodError)
     end
     it 'return map array result for input array' do
