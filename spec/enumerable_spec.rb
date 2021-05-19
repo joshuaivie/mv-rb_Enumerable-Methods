@@ -75,10 +75,10 @@ RSpec.describe Enumerable do
       expect { nil.may_all? }.to raise_error(NoMethodError)
     end
     it 'block_given for array' do
-      expect(array.my_all?(&:odd?)).to eql(array.all?(&:odd?))
+      expect(array.my_all? { |element| element == 1 }).to eql(array.all? { |element| element == 2 })
     end
     it 'block_given for range' do
-      expect(range.my_all?(&:odd?)).to eql(range.all?(&:odd?))
+      expect(range.my_all? { |element| element == 2 }).to eql(range.all? { |element| element == 2 })
     end
   end
 
@@ -96,10 +96,30 @@ RSpec.describe Enumerable do
       expect { nil.may_any? }.to raise_error(NoMethodError)
     end
     it 'block_given for array' do
-      expect(array.my_any?(&:even?)).to eql(array.any?(&:none?))
+      expect(array.my_any? { |element| element == 2 }).to eql(array.any? { |element| element == 2 })
     end
     it 'block_given for range' do
-      expect(range.my_any?(&:even?)).to eql(range.any?(&:none?))
+      expect(range.my_any? { |element| element == 2 }).to eql(range.any? { |element| element == 2 })
+    end
+  end
+  describe '#my_none?' do
+    it 'no block_given for array' do
+      expect(array.my_none?).to eql(array.none?)
+    end
+    it 'no block_given for range' do
+      expect(range.my_none?).to eql(range.none?)
+    end
+    it 'no block_given for hash' do
+      expect(hash.my_none?).to eql(hash.none?)
+    end
+    it 'raises error if given nil' do
+      expect { nil.may_none? }.to raise_error(NoMethodError)
+    end
+    it 'block_given for array' do
+      expect(array.my_none? { |element| element == 100 }).to eql(array.none? { |element| element == 100 })
+    end
+    it 'block_given for range' do
+      expect(range.my_none? { |element| element == 100 }).to eql(range.none? { |element| element == 100 })
     end
   end
 end
