@@ -80,6 +80,12 @@ RSpec.describe Enumerable do
     it 'block_given for range' do
       expect(range.my_all? { |element| element == 2 }).to eql(range.all? { |element| element == 2 })
     end
+    it 'test with class given' do
+      expect(array.my_all?(Integer)).to eql(array.all?(Integer))
+    end
+    it 'test with regex given' do
+      expect(array.my_all?(/[a-z]/)).to eql(array.all?(/[a-z]/))
+    end
   end
 
   describe '#my_any?' do
@@ -101,7 +107,14 @@ RSpec.describe Enumerable do
     it 'block_given for range' do
       expect(range.my_any? { |element| element == 2 }).to eql(range.any? { |element| element == 2 })
     end
+    it 'tests with class given' do
+      expect(array.my_any?(Integer)).to eql(array.any?(Integer))
+    end
+    it 'tests with regex given' do
+      expect(array.my_any?(/[1-9]/)).to eql(array.any?(/[1-9]/))
+    end
   end
+
   describe '#my_none?' do
     it 'no block_given for array' do
       expect(array.my_none?).to eql(array.none?)
@@ -120,6 +133,12 @@ RSpec.describe Enumerable do
     end
     it 'block_given for range' do
       expect(range.my_none? { |element| element == 100 }).to eql(range.none? { |element| element == 100 })
+    end
+    it 'tests with class given' do
+      expect(array.my_none?(String)).to eql(array.none?(String))
+    end
+    it 'testd with regex given' do
+      expect(array.my_none?(/[a-z]/)).to eql(array.none?(/[a-z]/))
     end
   end
 end
