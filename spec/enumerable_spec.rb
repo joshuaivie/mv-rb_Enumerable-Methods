@@ -38,13 +38,13 @@ RSpec.describe Enumerable do
       standard_result = array.each_with_index { |element, _index| element }
       expect(my_result).to eql(standard_result)
     end
-    it 'returns each element and index from a supplied array' do
+    it 'returns each element and index from a supplied range' do
       hash = {}
       my_result = range.my_each_with_index { |element, index| hash[element] = index }
       standard_result = range.each_with_index { |element, index| hash[element] = index }
-      expect.call(my_result).to eql(standard_result)
+      expect(my_result).to eql(standard_result)
     end
-    it 'returns each element and index from a supplied array' do
+    it 'returns each element and index from a supplied hash' do
       my_result = hash.my_each_with_index { |(_key, _value), index| index }
       standard_result = hash.each_with_index { |(_key, _value), index| index }
       expect(my_result).to eql(standard_result)
