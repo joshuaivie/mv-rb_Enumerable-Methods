@@ -1,9 +1,9 @@
 require_relative '../enumerable'
 
 RSpec.describe Enumerable do
-  let(:array) {[1,2,3,4,5,6,7,8]}
-  let(:range) {(1..10)}
-  let(:hash) {{:my_name => "Zulfizar", :peer_name => "Joshua"}}
+  let(:array) { [1, 2, 3, 4, 5, 6, 7, 8] }
+  let(:range) { (1..10) }
+  let(:hash) { { my_name: 'Zulfizar', peer_name: 'Joshua' } }
   describe '#my_each' do
     it 'returns enumerable if not block_given' do
       expect(array.my_each).to be_an Enumerator
@@ -12,13 +12,13 @@ RSpec.describe Enumerable do
       expect { nil.my_each }.to raise_error(NoMethodError)
     end
     it 'for array' do
-      expect(array.my_each {|n| n}).to eql(array.each {|n| n})
+      expect(array.my_each { |n| n }).to eql(array.each { |n| n })
     end
     it 'for range' do
-      expect(range.my_each {|n| n}).to eql(range.each {|n| n})
+      expect(range.my_each { |n| n }).to eql(range.each { |n| n })
     end
     it 'for hash' do
-      expect(range.my_each {|key, value| key}).to eql(range.each {|key, value| key})
+      expect(range.my_each { |key, _value| key }).to eql(range.each { |key, _value| key })
     end
   end
 
@@ -30,14 +30,14 @@ RSpec.describe Enumerable do
       expect { nil.my_each_with_index }.to raise_error(NoMethodError)
     end
     it 'for array' do
-      expect(array.my_each_with_index {|element, index| element}).to eql(array.each_with_index {|element, index| element})
+      expect(array.my_each_with_index { |element, _index| element }).to eql(array.each_with_index { |element, _index| element })
     end
     it 'for range' do
-      hash = Hash.new
-      expect(range.my_each_with_index {|element, index| hash[element] = index}).to eql(range.each_with_index {|element, index| hash[element] = index})
+      hash = {}
+      expect(range.my_each_with_index { |element, index| hash[element] = index }).to eql(range.each_with_index { |element, index| hash[element] = index })
     end
     it 'for hash' do
-      expect(hash.my_each_with_index {|(key, value), index| index}).to eql(hash.each_with_index {|(key, value), index| index})
+      expect(hash.my_each_with_index { |(_key, _value), index| index }).to eql(hash.each_with_index { |(_key, _value), index| index })
     end
   end
 
@@ -49,10 +49,10 @@ RSpec.describe Enumerable do
       expect { nil.my_select }.to raise_error(NoMethodError)
     end
     it 'for array' do
-      expect(array.my_select {|element| element.even?}).to eql(array.select {|element| element.even?})
+      expect(array.my_select(&:even?)).to eql(array.select(&:even?))
     end
     it 'for range' do
-      expect(range.my_select {|element| element.even?}).to eql(range.select {|element| element.even?})
+      expect(range.my_select(&:even?)).to eql(range.select(&:even?))
     end
     it 'it returns the selected element from a array of symbols' do
       my_result = %i[foo bar].my_select { |x| x == :foo }
@@ -75,10 +75,31 @@ RSpec.describe Enumerable do
       expect { nil.may_all? }.to raise_error(NoMethodError)
     end
     it 'block_given for array' do
-      expect(array.my_all? { |element| element.odd? }).to eql(array.all? {|element| element.odd?})
+      expect(array.my_all?(&:odd?)).to eql(array.all?(&:odd?))
     end
     it 'block_given for range' do
-      expect(range.my_all? { |element| element.odd? }).to eql(range.all? {|element| element.odd?})
+      expect(range.my_all?(&:odd?)).to eql(range.all?(&:odd?))
+    end
+  end
+
+  describe '#my_any?' do
+    it 'no block_given for array' do
+      expect(array.my_any?).to eql(array.any?)
+    end
+    it 'no block_given for range' do
+      expect(range.my_any?).to eql(range.any?)
+    end
+    it 'no block_given for hash' do
+      expect(hash.my_any?).to eql(hash.any?)
+    end
+    it 'raises error if given nil' do
+      expect { nil.may_any? }.to raise_error(NoMethodError)
+    end
+    it 'block_given for array' do
+      expect(array.my_any?(&:even?)).to eql(array.any?(&:none?))
+    end
+    it 'block_given for range' do
+      expect(range.my_any?(&:even?)).to eql(range.any?(&:none?))
     end
   end
 end
