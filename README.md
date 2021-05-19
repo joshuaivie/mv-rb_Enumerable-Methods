@@ -40,6 +40,14 @@ To get a local copy up and running, follow these simple example steps.
 git clone https://github.com/joshuaivie/mv-rb_Enumerable-Methods/
 ```
 
+## RSpec test Instructions
+
+<ol>
+  <li>To test this game install RSpec, for it boot up your terminal and punch in `gem install rspec` to install RSpec.</li>
+  <li>`cd` into mv-rb_Enumerable-Methods project directory</li>
+  <li>Type `rspec`</li>
+</ol>
+
 ### Usage
 
 - Ensure you're in the directory in which you've set up the project
