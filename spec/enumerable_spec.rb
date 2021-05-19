@@ -6,7 +6,7 @@ RSpec.describe Enumerable do
   let(:range) { (1..10) }
   let(:hash) { { my_name: 'Zulfizar', peer_name: 'Joshua' } }
   describe '#my_each' do
-    it 'returns enumerable if not block_given' do
+    it 'returns enumerable if no block_given' do
       expect(array.my_each).to be_an Enumerator
     end
     it 'with nil' do
@@ -24,7 +24,7 @@ RSpec.describe Enumerable do
   end
 
   describe '#my_each_with_index' do
-    it 'returns enumerable if not block_given' do
+    it 'returns enumerable if no block_given' do
       expect(array.my_each_with_index).to be_an Enumerator
     end
     it 'with nil' do
@@ -42,8 +42,8 @@ RSpec.describe Enumerable do
     end
   end
 
-  describe '#my_selct' do
-    it 'returns enumerable if not block_given' do
+  describe '#my_select' do
+    it 'returns enumerable if no block_given' do
       expect(array.my_select).to be_an Enumerator
     end
     it 'with nil' do
@@ -164,6 +164,21 @@ RSpec.describe Enumerable do
     end
     it 'counts length when no test param given' do
       expect(array.my_count).to eql(array.count)
+    end
+  end
+
+  describe '#my_map' do
+    it 'returns enumerable if no block_given' do
+      expect(array.my_map).to be_an Enumerator
+    end
+    it 'raises an error when called on nil' do
+      expect { nil.my_map }.to raise_error(NoMethodError)
+    end
+    it 'return map array result for input array' do
+      expect(array.my_map { |element| element + 2 }).to eql(array.map { |element| element + 2 })
+    end
+    it 'returns may array result for input range' do
+      expect(range.my_map { |element| element * 2 }).to eql(range.map { |element| element * 2 })
     end
   end
 end
