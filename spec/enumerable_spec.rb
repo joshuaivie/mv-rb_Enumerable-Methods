@@ -2,6 +2,7 @@ require_relative '../enumerable'
 
 RSpec.describe Enumerable do
   let(:array) { [1, 2, 3, 4, 5, 6, 7, 8] }
+  let(:string_array) { %w[apple ball call dog elephant] }
   let(:range) { (1..10) }
   let(:hash) { { my_name: 'Zulfizar', peer_name: 'Joshua' } }
   describe '#my_each' do
@@ -84,7 +85,7 @@ RSpec.describe Enumerable do
       expect(array.my_all?(Integer)).to eql(array.all?(Integer))
     end
     it 'test with regex given' do
-      expect(array.my_all?(/[a-z]/)).to eql(array.all?(/[a-z]/))
+      expect(string_array.my_all?(/[a-z]/)).to eql(string_array.all?(/[a-z]/))
     end
   end
 
@@ -111,7 +112,7 @@ RSpec.describe Enumerable do
       expect(array.my_any?(Integer)).to eql(array.any?(Integer))
     end
     it 'tests with regex given' do
-      expect(array.my_any?(/[1-9]/)).to eql(array.any?(/[1-9]/))
+      expect(string_array.my_any?(/[1-9]/)).to eql(string_array.any?(/[1-9]/))
     end
   end
 
@@ -138,7 +139,31 @@ RSpec.describe Enumerable do
       expect(array.my_none?(String)).to eql(array.none?(String))
     end
     it 'testd with regex given' do
-      expect(array.my_none?(/[a-z]/)).to eql(array.none?(/[a-z]/))
+      expect(string_array.my_none?(/[a-z]/)).to eql(string_array.none?(/[a-z]/))
+    end
+  end
+
+  describe '#my_count?' do
+    it 'no block_given for array' do
+      expect(array.my_count).to eql(array.count)
+    end
+    it 'no block_given for range' do
+      expect(range.my_count).to eql(range.count)
+    end
+    it 'no block_given for hash' do
+      expect(hash.my_count).to eql(hash.count)
+    end
+    it 'raises error if given nil' do
+      expect { nil.may_count }.to raise_error(NoMethodError)
+    end
+    it 'block_given for array' do
+      expect(array.my_count(&:even?)).to eql(array.count(&:even?))
+    end
+    it 'block_given for range' do
+      expect(range.my_count(&:even?)).to eql(range.count(&:even?))
+    end
+    it 'counts length when no test param given' do
+      expect(array.my_count).to eql(array.count)
     end
   end
 end
