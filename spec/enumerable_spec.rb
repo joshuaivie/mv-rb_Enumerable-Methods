@@ -181,4 +181,29 @@ RSpec.describe Enumerable do
       expect(range.my_map { |element| element * 2 }).to eql(range.map { |element| element * 2 })
     end
   end
+
+  describe '#my_inject' do
+    it 'returns result when both operator and initial are given' do
+      expect(array.my_inject(1, :*)).to eql(array.inject(1, :*))
+    end
+    it 'returns result when only operator is given' do
+      expect(array.my_inject(:*)).to eql(array.inject(:*))
+    end
+    it 'returns result when initial and block are given' do
+      my_result = array.my_inject(100) { |initial, element| initial + element }
+      standard_result = array.inject(100) { |initial, element| initial + element }
+      expect(my_result).to eql(standard_result)
+    end
+    it 'returns result when only block is given' do
+      my_result = array.my_inject { |initial, element| initial * element }
+      standard_result = array.inject { |initial, element| initial * element }
+      expect(my_result).to eql(standard_result)
+    end
+    it 'returns result when range given too' do
+      expect(range.my_inject(:*)).to eql(range.inject(:*))
+    end
+    it 'raises a Local Jump error when no block given' do
+      expect { array.my_inject }.to raise_error(LocalJumpError)
+    end
+  end
 end
