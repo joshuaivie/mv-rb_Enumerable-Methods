@@ -49,6 +49,20 @@ git clone https://github.com/joshuaivie/mv-rb_Enumerable-Methods/
 ruby enumerable.rb
 ```
 
+## Testing
+
+This project uses the ruby spec gem for testing.
+
+<ol>
+  <li>To test this game install RSpec by booting up your terminal and typing in `gem install rspec`.</li>
+  <li>`cd` into mv-rb_Enumerable-Methods project directory</li>
+  <li>Type `rspec`</li>
+</ol>
+
+```console
+gem install rspec &&  cd mv-rb_Enumerable-Methods && rspec
+```
+
 ## Author
 
 👤 **Joshua Ivie**
