@@ -5,20 +5,21 @@ RSpec.describe Enumerable do
   let(:string_array) { %w[apple ball call dog elephant] }
   let(:range) { (1..10) }
   let(:hash) { { my_name: 'Zulfizar', peer_name: 'Joshua' } }
+
   describe '#my_each' do
     it 'returns enumerable if no block_given' do
       expect(array.my_each).to be_an Enumerator
     end
-    it 'with nil' do
+    it 'raises NoMethod error when applied on nil' do
       expect { nil.my_each }.to raise_error(NoMethodError)
     end
-    it 'for array' do
+    it 'returns each element from a supplied array' do
       expect(array.my_each { |n| n }).to eql(array.each { |n| n })
     end
-    it 'for range' do
+    it 'returns each element from a supplied range' do
       expect(range.my_each { |n| n }).to eql(range.each { |n| n })
     end
-    it 'for hash' do
+    it 'returns each element from a supplied hash' do
       expect(range.my_each { |key, _value| key }).to eql(range.each { |key, _value| key })
     end
   end
@@ -27,17 +28,17 @@ RSpec.describe Enumerable do
     it 'returns enumerable if no block_given' do
       expect(array.my_each_with_index).to be_an Enumerator
     end
-    it 'with nil' do
+    it 'raises NoMethod error when applied on nil' do
       expect { nil.my_each_with_index }.to raise_error(NoMethodError)
     end
-    it 'for array' do
+    it 'returns each element and index from a supplied array' do
       expect(array.my_each_with_index { |element, _index| element }).to eql(array.each_with_index { |element, _index| element })
     end
-    it 'for range' do
+    it 'returns each element and index from a supplied array' do
       hash = {}
       expect(range.my_each_with_index { |element, index| hash[element] = index }).to eql(range.each_with_index { |element, index| hash[element] = index })
     end
-    it 'for hash' do
+    it 'returns each element and index from a supplied array' do
       expect(hash.my_each_with_index { |(_key, _value), index| index }).to eql(hash.each_with_index { |(_key, _value), index| index })
     end
   end
@@ -204,6 +205,15 @@ RSpec.describe Enumerable do
     end
     it 'raises a Local Jump error when no block given' do
       expect { array.my_inject }.to raise_error(LocalJumpError)
+    end
+  end
+
+  describe '#multiply_els' do
+    it 'returns result when all elements in an array are multiplied' do
+      expect(multiply_els([2, 2, 2, 2])).to eql(16)
+    end
+    it 'raises an Argument error when no parameter given' do
+      expect { multiply_els }.to raise_error(ArgumentError)
     end
   end
 end

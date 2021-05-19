@@ -30,7 +30,7 @@ module Enumerable
 
     result = []
     to_a.my_each do |item|
-      result << item if yield(item)
+      result.push(item) if yield(item) == true
     end
     result
   end
